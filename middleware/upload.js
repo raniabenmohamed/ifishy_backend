@@ -16,11 +16,12 @@ var upload = multer ({
     fileFilter: function(req, file, callback){
         if (
             file.mimetype == "image/png" ||
-            file.mimetype == "image/jpg"
+            file.mimetype == "image/jpg" ||
+            file.mimetype == "image/jpeg"
         ){
             callback(null,true)
         } else {
-            console.log('only jpg and png file supported')
+            console.log('only jpg, jpeg and png file supported')
             callback (null, false)
         }
     },

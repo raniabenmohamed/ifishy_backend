@@ -2,40 +2,53 @@ const Post = require('../models/Post')
 
 
 //show list of posts
-const cawiat = async (req, res) => {
+/*const cawiat = async (req, res) => {
     const t = await Post.find()
     res.json(t)
     
+}*/
+const cawiat = (req, res)=> {
+    Post.find()
+    .then(response => {
+        res.json(
+            response
+        )
+    })
+        .catch(error =>{
+            res.json({
+                message:'An error Occured ! '
+            })
+        })
 }
 
 //Show single post
-const show = (req, res, next) => {
-let PostID = req.body.PostID
-Post.findById(PostID)
-.then(response => {
-    res.json({
-        response
-    })
-})
-.catch(error => {
-    res.json({
-        message : 'An Error Occured'
-    })
-    
-})
+const show = async (req, res) => {
+
+    var post;
+    if (req.body._id) {
+        post = await Post.findById(req.body._id)
+    } else {
+        post = await Post.find()
+    }
+
+    res.send({ post })
 }
 
 // create a post
 const createPost = (req,res,next) => {
+    const {description,location,fish_found, latitude,longitude}=req.body
         
         let post = new Post({
-            photo: req.body.photo,
-            description: req.body.description,
-           // birthdate: req.body.birthdate,
-            location: req.body.location,
-            fish_found: req.body.fish_found
+            
         })
-       
+       post.description=description
+       post.location=location
+       post.fish_found=fish_found
+       post.latitude=latitude
+       post.longitude=longitude
+
+       post.photo=req.file.filename
+       console.log(post)
         post.save()
         .then(response => {
             res.json({

@@ -18,9 +18,7 @@ const userSchema = new Schema ({
     phone: {
         type: String
     },
-    token: {
-        type: String
-    }
+    isVerified: { type: Boolean },
     
 }, {timestamps: true})
 

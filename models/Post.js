@@ -19,6 +19,15 @@ const postSchema = new Schema ({
     },
     fish_found: {
         type: String
+    },
+    latitude: { 
+        type: Number,
+        required: true
+    },
+
+    longitude: { 
+        type: Number,
+        required: true
     }
     
 }, {timestamps: true})

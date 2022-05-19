@@ -8,35 +8,32 @@ const cawiat = async (req, res) => {
     
 }
 
-//Show single product
-const show = (req, res, next) => {
-let ProductID = req.body.PostID
-Product.findById(ProductID)
-.then(response => {
-    res.json({
-        response
-    })
-})
-.catch(error => {
-    res.json({
-        message : 'An Error Occured'
-    })
-    
-})
+//Show single post
+const show = async (req, res) => {
+
+    var product;
+    if (req.body._id) {
+        product = await Product.findById(req.body._id)
+    } else {
+        product = await Product.find()
+    }
+
+    res.send({ product })
 }
 
-// create a product
+// create a post
 const createProduct = (req,res,next) => {
+    const {title,description,price,categorie}=req.body
         
         let product = new Product({
-            title: req.body.title,
-            photo: req.body.photo,
-            description: req.body.description,
-           // birthdate: req.body.birthdate,
-            price: req.body.price,
-            categorie: req.body.categorie
+            
         })
-        
+       product.description=description
+       product.title=title
+       product.price=price
+       product.categorie=categorie
+       product.photo=req.file.filename
+       console.log(product)
         product.save()
         .then(response => {
             res.json({
